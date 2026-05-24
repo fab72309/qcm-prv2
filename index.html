@@ -253,14 +253,15 @@ button, input, select { font: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  min-height: 40px;
-  padding: 8px 10px;
+  min-height: 36px;
+  padding: 7px 9px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: white;
   color: var(--ink);
   cursor: pointer;
   font-weight: 750;
+  font-size: 0.9rem;
 }
 
 .chip input { accent-color: var(--brand); }
@@ -743,8 +744,8 @@ button, input, select { font: inherit; }
             <span>Correction au choix</span>
           </div>
           <div class="exam-options" aria-label="Mode de correction des examens">
-            <label class="chip"><input type="radio" name="exam-correction" value="finale" checked> Finale</label>
-            <label class="chip"><input type="radio" name="exam-correction" value="immediate"> Immediate</label>
+            <label class="chip"><input type="radio" name="exam-correction" value="finale" checked> Correction finale</label>
+            <label class="chip"><input type="radio" name="exam-correction" value="immediate"> Correction immediate</label>
           </div>
           <div class="mode-list">
             ${Object.entries(data.examDistributions).map(([key, distribution]) => `
@@ -786,8 +787,8 @@ button, input, select { font: inherit; }
             <div class="field">
               <label>Correction</label>
               <select class="select-input" id="correction-mode">
-                <option value="immediate">Immediate</option>
-                <option value="finale">Finale</option>
+                <option value="immediate">Correction immediate</option>
+                <option value="finale">Correction finale</option>
               </select>
             </div>
             <button class="primary" id="start-revision">Lancer la revision</button>
