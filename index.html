@@ -131,6 +131,13 @@ button, input, select { font: inherit; }
   gap: 12px;
 }
 
+.exam-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
 .mode-card {
   width: 100%;
   display: grid;
@@ -223,6 +230,17 @@ button, input, select { font: inherit; }
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.compact-button {
+  min-height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  padding: 7px 10px;
+  background: white;
+  color: var(--brand-dark);
+  cursor: pointer;
+  font-weight: 850;
 }
 
 .chip-grid {
@@ -722,7 +740,11 @@ button, input, select { font: inherit; }
         <section class="panel mode-panel">
           <div class="section-title">
             <h2>Examens</h2>
-            <span>Correction finale par defaut</span>
+            <span>Correction au choix</span>
+          </div>
+          <div class="exam-options" aria-label="Mode de correction des examens">
+            <label class="chip"><input type="radio" name="exam-correction" value="finale" checked> Finale</label>
+            <label class="chip"><input type="radio" name="exam-correction" value="immediate"> Immediate</label>
           </div>
           <div class="mode-list">
             ${Object.entries(data.examDistributions).map(([key, distribution]) => `
@@ -744,7 +766,13 @@ button, input, select { font: inherit; }
           </div>
           <div class="revision-controls">
             <div class="field">
-              <label>Themes</label>
+              <div class="section-title">
+                <label>Themes</label>
+                <span class="input-row">
+                  <button class="compact-button" id="select-all-topics" type="button">Tout cocher</button>
+                  <button class="compact-button" id="clear-all-topics" type="button">Tout decocher</button>
+                </span>
+              </div>
               <div class="chip-grid">${topicChips}</div>
             </div>
             <div class="field">
@@ -772,7 +800,20 @@ button, input, select { font: inherit; }
       button.addEventListener("click", () => {
         const key = button.dataset.exam;
         const distribution = data.examDistributions[key];
-        startSession(buildExamSession(data.questions, distribution, seed()), distribution.label, "finale");
+        const examCorrection = app.querySelector('input[name="exam-correction"]:checked').value;
+        startSession(buildExamSession(data.questions, distribution, seed()), distribution.label, examCorrection);
+      });
+    });
+
+    app.querySelector("#select-all-topics").addEventListener("click", () => {
+      app.querySelectorAll('input[name="topic"]').forEach((input) => {
+        input.checked = true;
+      });
+    });
+
+    app.querySelector("#clear-all-topics").addEventListener("click", () => {
+      app.querySelectorAll('input[name="topic"]').forEach((input) => {
+        input.checked = false;
       });
     });
 
