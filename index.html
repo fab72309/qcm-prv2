@@ -728,7 +728,7 @@ button, input, select { font: inherit; }
       <label class="chip"><input type="checkbox" name="topic" value="${escapeHtml(topic)}" checked> ${escapeHtml(topic)}</label>
     `).join("");
     const intensityChips = ["1", "2", "3"].map((intensity) => `
-      <label class="chip"><input type="checkbox" name="intensity" value="${intensity}" checked> Intensite ${intensity}</label>
+      <label class="chip"><input type="checkbox" name="intensity" value="${intensity}"> Intensite ${intensity}</label>
     `).join("");
 
     app.innerHTML = `
@@ -823,6 +823,10 @@ button, input, select { font: inherit; }
       const intensities = [...app.querySelectorAll('input[name="intensity"]:checked')].map((input) => input.value);
       const count = Number(app.querySelector("#revision-count").value || 20);
       const correction = app.querySelector("#correction-mode").value;
+      if (!intensities.length) {
+        showToast("Selectionne au moins une intensite.");
+        return;
+      }
       const session = buildRevisionSession(data.questions, { topics, intensities, count }, seed());
       if (!session.length) {
         showToast("Aucune question ne correspond aux filtres.");
